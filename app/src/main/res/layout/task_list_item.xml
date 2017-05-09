@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    >
+
+    <TextView
+        android:id="@+id/task_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="@dimen/text_margin"
+        />
+
+    <TextView
+        android:id="@+id/task_due_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="@dimen/text_margin"
+        />
+
+    <TextView
+        android:id="@+id/task_options_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:padding="@dimen/text_margin"
+        android:text="&#8942;"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        />
+
+
+</LinearLayout>

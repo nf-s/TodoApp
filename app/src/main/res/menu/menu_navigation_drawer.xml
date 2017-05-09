@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single" android:id="@+id/drawer_menu_group__first" android:orderInCategory="1">
+        <item
+            android:id="@+id/drawer_menu_today"
+            android:icon="@drawable/ic_today_black_18dp"
+            android:title="Today"
+            android:orderInCategory="1"/>
+        <item
+            android:id="@+id/drawer_menu_tmq"
+            android:icon="@drawable/ic_timeline_black_18dp"
+            android:title="TMQ"
+            android:orderInCategory="2"/>
+        <item
+            android:id="@+id/drawer_menu_all_tasks"
+            android:icon="@drawable/ic_playlist_add_check_black_18dp"
+            android:title="All Tasks"
+            android:orderInCategory="3"/>
+    </group>
+
+    <group android:checkableBehavior="single" android:id="@+id/drawer_menu_group_goals" android:orderInCategory="1000">
+        <item
+            android:id="@+id/drawer_menu_new_goal"
+            android:icon="@drawable/ic_add_black_18dp"
+            android:title="New Goal"
+            android:orderInCategory="1999"/>
+    </group>
+
+    <group android:checkableBehavior="single" android:id="@+id/drawer_menu_group_last" android:orderInCategory="2000">
+        <item
+            android:id="@+id/drawer_menu_settings"
+            android:icon="@drawable/ic_settings_black_18dp"
+            android:title="Settings" />
+        <item
+            android:id="@+id/drawer_menu_help"
+            android:icon="@drawable/ic_help_black_18dp"
+            android:title="Help and Feedback" />
+    </group>
+</menu>
