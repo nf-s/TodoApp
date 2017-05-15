@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools">
+    <group android:id="@+id/menu_item_options_group" android:orderInCategory="1">
+        <item
+            android:id="@+id/item_popup_menu_mark_uncompleted"
+            android:orderInCategory="1"
+            android:title="@string/task_options_menu_mark_uncompleted"
+            app:showAsAction="never"/>
+        <item
+            android:id="@+id/item_popup_menu_add_dailyplan"
+            android:orderInCategory="2"
+            android:title="@string/task_options_menu_add_to_daily_planner"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/item_popup_menu_edit"
+            android:orderInCategory="3"
+            android:title="@string/task_options_menu_edit"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/item_popup_menu_delete"
+            android:orderInCategory="4"
+            android:title="@string/task_options_menu_delete"
+            app:showAsAction="never" />
+    </group>
+</menu>

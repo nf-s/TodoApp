@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="drawer_menu_new_goal" type="id"/>
+    <item name="drawer_menu_goal_view_group" type="id"/>
+
+</resources>
