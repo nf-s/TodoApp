@@ -208,7 +208,6 @@ public class TaskViewDialogFragment extends DialogFragment implements TodoDispla
 	@Override
 	public void onTodoItemOptionsMenuItemClick(MenuItem item, TodoDisplayableItem todoItem) {
 		switch (item.getItemId()) {
-			// Handle back button on action bars (also used by all DialogFragements attached from this Activity
 			case R.id.item_popup_menu_delete:
 				if(mItemType.equals(Task.TAG))
 					mListener.taskListChanged(mSelectedItemId, mInvokedBy);

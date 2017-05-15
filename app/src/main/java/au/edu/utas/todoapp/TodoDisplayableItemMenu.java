@@ -58,7 +58,7 @@ public class TodoDisplayableItemMenu implements PopupMenu.OnMenuItemClickListene
 
 					builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							mDb.removeItem(mSelectedTask);
+							mDb.archiveItem(mSelectedTask);
 							Toast.makeText(mContext, "Task Deleted", Toast.LENGTH_SHORT).show();
 							mListener.onTodoItemOptionsMenuItemClick(item, mSelectedTask);
 						}
@@ -136,7 +136,7 @@ public class TodoDisplayableItemMenu implements PopupMenu.OnMenuItemClickListene
 
 					builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
-							mDb.removeItem(mSelectedGoal);
+							mDb.archiveItem(mSelectedGoal);
 							Toast.makeText(mContext, "Goal Deleted", Toast.LENGTH_SHORT).show();
 							mListener.onTodoItemOptionsMenuItemClick(item, mSelectedGoal);
 						}

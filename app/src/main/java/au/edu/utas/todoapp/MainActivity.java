@@ -414,7 +414,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			//taskEditFragment.setTaskGoal(itemId);
 		}
 	}
-// ---------------------------- END UI METHODS ---------------------------- //
 
 }
 

@@ -135,9 +135,28 @@ class TodoDB {
 		return g;
 	} // getProperty
 
-	ArrayList<Task> getAllTasks() {
+	ArrayList<Task> getAllActiveTasks() {
 		ArrayList<Task> taskList = new ArrayList<Task>();
-		Cursor c = mDb.query(TASK_TABLE, null, null, null, null, null, null);
+		Cursor c = mDb.query(TASK_TABLE, null, KEY_TASK_ARCHIVED_DATE + " is null or "+KEY_TASK_ARCHIVED_DATE+" = ''", null, null, null, null);
+
+		if (c != null) {
+			c.moveToFirst();
+			while (!c.isAfterLast()) {
+				Task t = cursorToTask(c);
+				taskList.add(t);
+
+				c.moveToNext();
+			}
+			c.close(); //Cursor management.
+			c = null;
+		}
+
+		return taskList;
+	}
+
+	ArrayList<Task> getArchivedTasks() {
+		ArrayList<Task> taskList = new ArrayList<Task>();
+		Cursor c = mDb.query(TASK_TABLE, null, KEY_TASK_ARCHIVED_DATE + " > 0", null, null, null, null);
 
 		if (c != null) {
 			c.moveToFirst();
@@ -200,15 +219,15 @@ class TodoDB {
 		}
 	}
 
-	void removeItem(TodoDisplayableItem item) {
+	void deleteItem(TodoDisplayableItem item) {
 		if (item.getType() == Task.TAG) {
-			removeTask(item.getId());
+			deleteTask(item.getId());
 		} else {
-			removeGoal(item.getId());
+			deleteGoal(item.getId());
 		}
 	}
 
-	void removeTask(int id) {
+	void deleteTask(int id) {
 		try {
 			mDb.delete(TASK_TABLE, KEY_TASK_ROWID + "=" + id, null);
 		} catch (SQLiteException e) {
@@ -216,12 +235,30 @@ class TodoDB {
 		}
 	}
 
-	void removeGoal(int id) {
+	void deleteGoal(int id) {
 		try {
 			mDb.delete(GOAL_TABLE, KEY_GOAL_ROWID + "=" + id, null);
 		} catch (SQLiteException e) {
 			Log.e(TAG, "SQLiteException: "+e.getMessage());
 		}
+	}
+
+	void archiveItem(TodoDisplayableItem item) {
+		if (item.getType() == Task.TAG) {
+			archiveTask((Task)item);
+		} else {
+			archiveGoal((Goal)item);
+		}
+	}
+
+	void archiveTask(Task t) {
+		t.setArchivedDate(Calendar.getInstance());
+		editTask(t);
+	}
+
+	void archiveGoal(Goal g) {
+		g.setArchivedDate(Calendar.getInstance());
+		editGoal(g);
 	}
 
 	//https://stackoverflow.com/questions/7363112/best-way-to-work-with-dates-in-android-sqlite

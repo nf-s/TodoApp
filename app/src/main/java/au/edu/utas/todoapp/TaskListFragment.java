@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,6 +114,8 @@ public class TaskListFragment extends Fragment implements TodoDisplayableItemMen
 							 Bundle savedInstanceState) {
 		mRootView = inflater.inflate(R.layout.fragment_task_list, container, false);
 		mToolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+		mToolbar.getMenu().removeGroup(R.id.menu_task_list_group);
+		mToolbar.inflateMenu(R.menu.menu_task_list);
 
 		mDb = new TodoDB(mContext.getApplicationContext());
 
@@ -152,6 +155,27 @@ public class TaskListFragment extends Fragment implements TodoDisplayableItemMen
 	// ------------------------------------------------------------------------
 	// NAVIGATION METHODS (HANDLES SELECTING TOOLBAR ITEMS)
 	// ------------------------------------------------------------------------
+
+	/**
+	 *  Handles all non item related toolbar items
+	 *  Currently only the "home" button (which is configured as an "up" button)
+	 *  which pops this fragment off the stack (closes the fragment)
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.menu_task_list_show_archived_tasks:
+				mFilterFieldName = TodoDB.KEY_TASK_ARCHIVED_DATE;
+				mFilterFieldValue = "true";
+				refreshTaskListAdapter();
+				return true;
+			default:
+				// If we got here, the user's action was not recognized.
+				// Invoke the superclass to handle it.
+				return super.onOptionsItemSelected(item);
+
+		}
+	}
 
 	/**
 	 *  Handles all item related toolbar items (Task or Goal)
@@ -211,7 +235,13 @@ public class TaskListFragment extends Fragment implements TodoDisplayableItemMen
 		mToolbar.getMenu().removeGroup(R.id.menu_item_options_group);
 
 		mTaskList.clear();
-		mTaskList.addAll(mDb.getAllTasks());
+		if (mFilterFieldValue == TodoDB.KEY_TASK_ARCHIVED_DATE) {
+			mTaskList.addAll(mDb.getArchivedTasks());
+			mFilterFieldValue = mFilterFieldName = "";
+		}
+		else
+			mTaskList.addAll(mDb.getAllActiveTasks());
+
 
 		if (!mFilterFieldName.equals("")) {
 			filterTaskList(mFilterFieldName, mFilterFieldValue);
@@ -274,6 +304,7 @@ public class TaskListFragment extends Fragment implements TodoDisplayableItemMen
 			switch (fieldName) {
 				case TodoDB.KEY_TASK_GOALID:
 					currentValue = Integer.toString(t.getGoal().getId());
+					break;
 			}
 
 			if (currentValue.equals(fieldValue)) {
