@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Created by nfs on 2/05/2017.
@@ -33,15 +33,20 @@ class TodoDB {
 	static final String KEY_TASK_ROWID = "_id";
 	static final String KEY_TASK_GOALID = "goal_id";
 	static final String KEY_TASK_TITLE = "title";
-	static final String KEY_TASK_DUEDATE = "due_date";
 	static final String KEY_TASK_IMPORTANCE = "importance";
 	static final String KEY_TASK_URGENCY = "urgency";
 	static final String KEY_TASK_NOTES = "notes";
+	static final String KEY_TASK_DUEDATE = "due_date";
+	static final String KEY_TASK_DUETIME = "due_time";
 	static final String KEY_TASK_DAILYPLANNER_DATE = "dailyplanner_date";
+	static final String KEY_TASK_MARK_COMPLETED_DATE = "markcompleted_date";
+	static final String KEY_TASK_ARCHIVED_DATE = "archived_date";
 
 	static final String KEY_GOAL_ROWID = "_id";
 	static final String KEY_GOAL_TITLE = "title";
+	static final String KEY_GOAL_NOTES = "notes";
 	static final String KEY_GOAL_COL = "colour";
+	static final String KEY_GOAL_ARCHIVED_DATE = "archived_date";
 	/*
 	 * Database creation (SQL statement).
 	 */
@@ -51,17 +56,22 @@ class TodoDB {
 			+ " (" + KEY_TASK_ROWID + " integer primary key autoincrement, "
 			+ KEY_TASK_GOALID + " integer not null, "
 			+ KEY_TASK_TITLE + " string not null, "
-			+ KEY_TASK_DUEDATE + " long not null, "
 			+ KEY_TASK_IMPORTANCE + " tinyint not null, "
 			+ KEY_TASK_URGENCY + " tinyint not null, "
 			+ KEY_TASK_NOTES + " TEXT not null, "
-			+ KEY_TASK_DAILYPLANNER_DATE + " int," +
-			"FOREIGN KEY("+ KEY_TASK_GOALID +") REFERENCES "+GOAL_TABLE+"("+ KEY_GOAL_ROWID +"));";
+			+ KEY_TASK_DUEDATE + " long, "
+			+ KEY_TASK_DUETIME + " long, "
+			+ KEY_TASK_DAILYPLANNER_DATE + " long,"
+			+ KEY_TASK_MARK_COMPLETED_DATE + " long,"
+			+ KEY_TASK_ARCHIVED_DATE + " long,"
+			+ "FOREIGN KEY("+ KEY_TASK_GOALID +") REFERENCES "+GOAL_TABLE+"("+ KEY_GOAL_ROWID +"));";
 
 	private static final String GOAL_TABLE_CREATE = "create table "
 			+ GOAL_TABLE
 			+ " (" + KEY_GOAL_ROWID + " integer primary key autoincrement, "
 			+ KEY_GOAL_TITLE + " string not null, "
+			+ KEY_GOAL_NOTES + " TEXT not null, "
+			+ KEY_GOAL_ARCHIVED_DATE + " long,"
 			+ KEY_GOAL_COL + " integer not null);";
 
 	private SQLiteDatabase mDb;
@@ -85,6 +95,14 @@ class TodoDB {
 		}
 	} // close
 
+	TodoDisplayableItem getItem(String itemType, int id) {
+		if (itemType == Task.TAG) {
+			return getTask(id);
+		} else {
+			return getGoal(id);
+		}
+	}
+
 	Task getTask(int id) {
 		Log.d("mDb", "getTask: "+id);
 		Cursor c = mDb.query(TASK_TABLE, null, KEY_TASK_ROWID + "=" + id,
@@ -100,6 +118,22 @@ class TodoDB {
 		}
 		return t;
 	}
+
+	Goal getGoal(int id) {
+		Log.d("mDb", "getGoal: "+id);
+		Cursor c = mDb.query(GOAL_TABLE, null, KEY_GOAL_ROWID + "=" + id,
+				null, null, null, null);
+
+		Goal g = null;
+		if (c != null) {
+			if (c.moveToNext()) {
+				g = cursorToGoal(c);
+			}
+			c.close(); //Cursor management.
+			c = null;
+		}
+		return g;
+	} // getProperty
 
 	ArrayList<Task> getAllTasks() {
 		ArrayList<Task> taskList = new ArrayList<Task>();
@@ -120,21 +154,6 @@ class TodoDB {
 		return taskList;
 	}
 
-	Goal getGoal(int id) {
-		Cursor c = mDb.query(GOAL_TABLE, null, KEY_GOAL_ROWID + "=" + id,
-				null, null, null, null);
-
-		Goal g = null;
-		if (c != null) {
-			if (c.moveToNext()) {
-				g = cursorToGoal(c);
-			}
-			c.close(); //Cursor management.
-			c = null;
-		}
-		return g;
-	} // getProperty
-
 	ArrayList<Goal> getAllGoals() {
 		ArrayList<Goal> goalList = new ArrayList<Goal>();
 		Cursor c = mDb.query(GOAL_TABLE, null, null, null, null, null, null);
@@ -153,56 +172,53 @@ class TodoDB {
 		return goalList;
 	}
 
-	void addTask(Task t) {
-		ContentValues taskValues = new ContentValues();
-
-		// Build our property values
-		taskValues.put(KEY_TASK_TITLE, t.getTitle());
-		taskValues.put(KEY_TASK_GOALID, t.getGoal().getId());
-		taskValues.put(KEY_TASK_DUEDATE, t.getDueDate().getTime());
-		taskValues.put(KEY_TASK_IMPORTANCE, t.getImportance());
-		taskValues.put(KEY_TASK_URGENCY, t.getUrgency());
-		taskValues.put(KEY_TASK_NOTES, t.getNotes());
-		taskValues.put(KEY_TASK_DAILYPLANNER_DATE, t.getDailyPlanner().getTime());
-
+	int addTask(Task t) {
 		// Insert them into the database
-		mDb.insert(TASK_TABLE, null, taskValues);
+		return (int)mDb.insert(TASK_TABLE, null, taskToContentValues(t));
 	}
 
-	void addGoal(Goal g) {
-		ContentValues goalValues = new ContentValues();
-
-		// Build our property values
-		goalValues.put(KEY_GOAL_COL, g.getColour());
-		goalValues.put(KEY_GOAL_TITLE, g.getTitle());
-
+	int addGoal(Goal g) {
 		// Insert them into the database
-		mDb.insert(GOAL_TABLE, null, goalValues);
+		return (int)mDb.insert(GOAL_TABLE, null, goalToContentValues(g));
 	}
 
 	void editTask(Task t) {
-		ContentValues taskValues = new ContentValues();
-
-		// Build our property values
-		taskValues.put(KEY_TASK_TITLE, t.getTitle());
-		taskValues.put(KEY_TASK_GOALID, t.getGoal().getId());
-		taskValues.put(KEY_TASK_DUEDATE, t.getDueDate().getTime());
-		taskValues.put(KEY_TASK_IMPORTANCE, t.getImportance());
-		taskValues.put(KEY_TASK_URGENCY, t.getUrgency());
-		taskValues.put(KEY_TASK_NOTES, t.getNotes());
-		taskValues.put(KEY_TASK_DAILYPLANNER_DATE, t.getDailyPlanner().getTime());
-
 		// Insert them into the database
 		try {
-			mDb.update(TASK_TABLE, taskValues, KEY_TASK_ROWID + "=" + t.getId(), null);
+			mDb.update(TASK_TABLE, taskToContentValues(t), KEY_TASK_ROWID + "=" + t.getId(), null);
 		}catch (SQLiteException e) {
 			Log.e(TAG, "SQLiteException: "+e.getMessage());
+		}
+	}
+
+	void editGoal(Goal g) {
+		// Insert them into the database
+		try {
+			mDb.update(GOAL_TABLE, goalToContentValues(g), KEY_GOAL_ROWID + "=" + g.getId(), null);
+		}catch (SQLiteException e) {
+			Log.e(TAG, "SQLiteException: "+e.getMessage());
+		}
+	}
+
+	void removeItem(TodoDisplayableItem item) {
+		if (item.getType() == Task.TAG) {
+			removeTask(item.getId());
+		} else {
+			removeGoal(item.getId());
 		}
 	}
 
 	void removeTask(int id) {
 		try {
 			mDb.delete(TASK_TABLE, KEY_TASK_ROWID + "=" + id, null);
+		} catch (SQLiteException e) {
+			Log.e(TAG, "SQLiteException: "+e.getMessage());
+		}
+	}
+
+	void removeGoal(int id) {
+		try {
+			mDb.delete(GOAL_TABLE, KEY_GOAL_ROWID + "=" + id, null);
 		} catch (SQLiteException e) {
 			Log.e(TAG, "SQLiteException: "+e.getMessage());
 		}
@@ -217,11 +233,34 @@ class TodoDB {
 		t.setNotes(c.getString(c.getColumnIndex(KEY_TASK_NOTES)));
 		t.setImportance(c.getInt(c.getColumnIndex(KEY_TASK_IMPORTANCE)));
 		t.setTaskUrgency(c.getInt(c.getColumnIndex(KEY_TASK_URGENCY)));
-		t.setDueDate(new Date(c.getLong(c.getColumnIndex(KEY_TASK_DUEDATE))));
-		t.setDailyPlanner(new Date(c.getLong(c.getColumnIndex(KEY_TASK_DAILYPLANNER_DATE))));
+
+		t.setDueDate(dbLongToCalendar(c.getLong(c.getColumnIndex(KEY_TASK_DUEDATE))));
+		t.setDueTime(dbLongToCalendar(c.getLong(c.getColumnIndex(KEY_TASK_DUETIME))));
+		t.setDailyPlanner(dbLongToCalendar(c.getLong(c.getColumnIndex(KEY_TASK_DAILYPLANNER_DATE))));
+		t.setMarkedCompletedDate(dbLongToCalendar(c.getLong(c.getColumnIndex(KEY_TASK_MARK_COMPLETED_DATE))));
+		t.setArchivedDate(dbLongToCalendar(c.getLong(c.getColumnIndex(KEY_TASK_ARCHIVED_DATE))));
+
 		t.setGoal(getGoal(c.getInt(c.getColumnIndex(KEY_TASK_GOALID))));
 
 		return t;
+	}
+
+	ContentValues taskToContentValues(Task t) {
+		ContentValues taskValues = new ContentValues();
+
+		// Build our property values
+		taskValues.put(KEY_TASK_TITLE, t.getTitle());
+		taskValues.put(KEY_TASK_GOALID, t.getGoal().getId());
+		taskValues.put(KEY_TASK_IMPORTANCE, t.getImportance());
+		taskValues.put(KEY_TASK_URGENCY, t.getUrgency());
+		taskValues.put(KEY_TASK_NOTES, t.getNotes());
+		taskValues.put(KEY_TASK_DUEDATE, calendarToDbLong(t.getDueDate()));
+		taskValues.put(KEY_TASK_DUETIME, calendarToDbLong(t.getDueTime()));
+		taskValues.put(KEY_TASK_DAILYPLANNER_DATE, calendarToDbLong(t.getDailyPlanner()));
+		taskValues.put(KEY_TASK_MARK_COMPLETED_DATE, calendarToDbLong(t.getMarkedCompletedDate()));
+		taskValues.put(KEY_TASK_ARCHIVED_DATE, calendarToDbLong(t.getArchivedDate()));
+
+		return taskValues;
 	}
 
 	//https://stackoverflow.com/questions/7363112/best-way-to-work-with-dates-in-android-sqlite
@@ -230,8 +269,40 @@ class TodoDB {
 		g = new Goal(c.getInt(c.getColumnIndex(KEY_GOAL_ROWID)));
 		g.setTitle(c.getString(c.getColumnIndex(KEY_GOAL_TITLE)));
 		g.setColour(c.getInt(c.getColumnIndex(KEY_GOAL_COL)));
+		g.setNotes(c.getString(c.getColumnIndex(KEY_GOAL_NOTES)));
+		g.setArchivedDate(dbLongToCalendar(c.getLong(c.getColumnIndex(KEY_GOAL_ARCHIVED_DATE))));
 
 		return g;
+	}
+
+	ContentValues goalToContentValues(Goal g) {
+		ContentValues goalValues = new ContentValues();
+
+		// Build our property values
+		goalValues.put(KEY_GOAL_COL, g.getColour());
+		goalValues.put(KEY_GOAL_TITLE, g.getTitle());
+		goalValues.put(KEY_GOAL_NOTES, g.getNotes());
+		goalValues.put(KEY_GOAL_ARCHIVED_DATE, calendarToDbLong(g.getArchivedDate()));
+
+		return goalValues;
+	}
+
+	Calendar dbLongToCalendar(Long l) {
+		if (l == null || l == 0) {
+			return null;
+		} else {
+			Calendar c = Calendar.getInstance();
+			c.setTimeInMillis(l);
+			return c;
+		}
+	}
+
+	Long calendarToDbLong(Calendar c) {
+		if (c == null || c.getTimeInMillis() == 0) {
+			return null;
+		} else {
+			return c.getTimeInMillis();
+		}
 	}
 
 	private static class TodoDBHelper extends SQLiteOpenHelper {

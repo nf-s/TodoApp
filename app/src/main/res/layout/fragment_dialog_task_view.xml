@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/task_view_root"
     android:clickable="true">
 
     <android.support.design.widget.AppBarLayout
@@ -31,7 +32,15 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_task_view"/>
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/task_view_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightGreyBackground"
+        android:clickable="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/task_view_edit_task_btn"

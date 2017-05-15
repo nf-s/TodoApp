@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 24
+    buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId "au.edu.utas.todoapp"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -17,10 +17,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+
+    }
 }
 
 ext {
-    supportLibVersion = '25+'  // variable that can be referenced to keep support libs consistent
+    supportLibVersion = '24.+'  // variable that can be referenced to keep support libs consistent
 }
 
 dependencies {
@@ -30,12 +33,12 @@ dependencies {
     })
     //compile 'com.android.support:design:24.2.1'
     //compile 'com.android.support:appcompat-v7:19.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    //compile 'com.android.support.constraint:constraint-layout:1.0.2'
     //compile 'com.android.support:support-v4:19.+'
     //compile 'com.android.support:design'
-
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
     compile "com.android.support:support-v4:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
+    compile project(':colorpicker')
     testCompile 'junit:junit:4.12'
 }

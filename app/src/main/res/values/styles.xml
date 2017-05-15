@@ -19,7 +19,7 @@
 
         </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark">
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
 
     </style>
 
@@ -27,6 +27,49 @@
         <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
         <item name="colorControlHighlight">@color/TextAccent</item>
         <item name="colorAccent">@color/TextAccent</item>
+    </style>
+
+
+    <style name="AppTheme.ItemViewImage">
+        <item name="android:layout_gravity">top</item>
+        <item name="android:padding">@dimen/text_margin</item>
+        <item name="android:tint">@color/darkGreyTint</item>
+    </style>
+
+    <style name="AppTheme.ItemViewTextView">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:layout_gravity">top</item>
+        <item name="android:textColorHighlight">#5000</item>
+        <item name="colorControlNormal">#00000000</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.ItemEditImage">
+        <item name="android:layout_gravity">top</item>
+        <item name="android:padding">@dimen/text_margin</item>
+        <item name="android:layout_marginRight">@dimen/text_margin</item>
+        <item name="android:tint">@color/darkGreyTint</item>
+    </style>
+
+    <style name="AppTheme.ItemEditTextView">
+        <item name="android:textSize">16dp</item>
+        <item name="android:layout_marginLeft">@dimen/text_margin</item>
+        <item name="android:layout_marginRight">@dimen/text_margin</item>
+        <item name="android:paddingTop">@dimen/text_margin</item>
+        <item name="android:paddingBottom">@dimen/text_margin</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:layout_gravity">top</item>
+        <item name="android:textColorHighlight">#5000</item>
+        <item name="colorControlNormal">#00000000</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="android:baselineAligned">false</item>
+    </style>
+
+    <style name="AppTheme.NavigationDrawer">
+        <item name="android:tint">@color/darkGreyTint</item>
     </style>
 
 </resources>

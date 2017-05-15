@@ -1,10 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <!-- #3F51B5 -->
+    <color name="colorPrimary">#444444</color>
+    <!-- #303F9F -->
+    <color name="colorPrimaryDark">#333333</color>
     <color name="colorGraphicAccent">#FFFFFF</color>
-    <color name="colorAccent">#FF0000</color>
+    <color name="colorAccent">#00A6F6</color>
+    <color name="divider">#1000</color>
+    <color name="dark_divider">#3000</color>
     <color name="TextAccent">#FF0000</color>
-    <color name="darkGreyTint">#999999</color>
+    <color name="darkGreyTint">#666666</color>
+    <color name="lightGreyTint">#AAAAAA</color>
+    <color name="lightGreyBackground">#FAFAFA</color>
 
+    <color name="task_completed_text">#AAAAAA</color>
+    <color name="task_completed_list_background">#EEEEEE</color>
+
+
+    <!-- START COLOUR PICKER COLOURS -->
+    <color name="red">#F6402C</color>
+    <color name="crimson">#EB1460</color>
+    <color name="magenta">#F31DB0</color>
+    <color name="purple">#9C1AB1</color>
+    <color name="deep_purple">#6633B9</color>
+    <color name="indigo">#3D4DB7</color>
+    <color name="blue">#1093F5</color>
+    <color name="light_blue">#00A6F6</color>
+    <color name="cyan">#00BBD5</color>
+    <color name="teal">#009687</color>
+    <color name="green">#46AF4A</color>
+    <color name="light_green">#88C440</color>
+    <color name="lime">#CCDD1E</color>
+    <color name="yellow">#FFEC16</color>
+    <color name="amber">#FFC100</color>
+    <color name="orange">#FF9800</color>
+    <color name="deep_orange">#FF5505</color>
+    <color name="brown">#7A5547</color>
+    <color name="grey">#9D9D9D</color>
+    <color name="blue_grey">#5E7C8B</color>
+
+    <string name="col_F6402C">Red</string>
+    <string name="col_EB1460">Crimson</string>
+    <string name="col_F31DB0">Magenta</string>
+    <string name="col_9C1AB1">Purple</string>
+    <string name="col_6633B9">Deep Purple</string>
+    <string name="col_3D4DB7">Indigo</string>
+    <string name="col_1093F5">Royal Blue</string>
+    <string name="col_00A6F6">Sky Blue</string>
+    <string name="col_00BBD5">Cyan</string>
+    <string name="col_009687">Teal</string>
+    <string name="col_46AF4A">Forest Green</string>
+    <string name="col_88C440">Lawn Green</string>
+    <string name="col_CCDD1E">Lime</string>
+    <string name="col_FFEC16">Lemon</string>
+    <string name="col_FFC100">Amber</string>
+    <string name="col_FF9800">Orange</string>
+    <string name="col_FF5505">Deep Orange</string>
+    <string name="col_7A5547">Brown</string>
+    <string name="col_9D9D9D">Dim Grey</string>
+    <string name="col_5E7C8B">Slate Grey</string>
+
+    <array name="colourPickerColourArray">
+        <item>@color/red</item>
+        <item>@color/crimson</item>
+        <item>@color/magenta</item>
+        <item>@color/purple</item>
+        <item>@color/deep_purple</item>
+        <item>@color/indigo</item>
+        <item>@color/blue</item>
+        <item>@color/light_blue</item>
+        <item>@color/cyan</item>
+        <item>@color/teal</item>
+        <item>@color/green</item>
+        <item>@color/light_green</item>
+        <item>@color/lime</item>
+        <item>@color/yellow</item>
+        <item>@color/amber</item>
+        <item>@color/orange</item>
+        <item>@color/deep_orange</item>
+        <item>@color/brown</item>
+        <item>@color/grey</item>
+        <item>@color/blue_grey</item>
+    </array>
+    <!-- END COLOUR PICKER COLOURS -->
 </resources>

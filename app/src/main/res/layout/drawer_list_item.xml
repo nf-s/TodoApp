@@ -8,7 +8,9 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/text_margin"
     android:id="@+id/text1"
-    android:background="?android:attr/selectableItemBackground"
-    />
+    android:background="?android:attr/selectableItemBackground"/>
 
+    <CheckBox
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
 </LinearLayout>

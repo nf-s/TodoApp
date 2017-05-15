@@ -27,7 +27,8 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:minHeight="?attr/actionBarSize"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
             <android.support.design.widget.CoordinatorLayout
                 android:layout_width="match_parent"
@@ -66,6 +67,8 @@
             android:layout_height="match_parent"
             android:layout_width="wrap_content"
             android:layout_gravity="start"
+            app:itemIconTint="@color/darkGreyTint"
+            app:itemTextColor="@color/colorPrimaryDark"
             app:menu="@menu/menu_navigation_drawer"
             />
 </android.support.v4.widget.DrawerLayout>

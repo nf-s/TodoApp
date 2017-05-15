@@ -2,21 +2,52 @@
     <string name="app_name">TodoApp</string>
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_task_edit">TaskEditActivity</string>
-    <string name="title_activity_task_view">TaskViewActivity</string>
-
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_new_goal">New Goal</string>
+
+
     <string name="action_websearch">Web search</string>
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
 
     <string name="no_tasks">No tasks available.</string>
 
     <string name="task_options_menu_mark_completed">Mark completed</string>
+    <string name="task_options_menu_mark_uncompleted">Mark as uncompleted</string>
     <string name="task_options_menu_add_to_daily_planner">Add to daily planner</string>
+    <string name="task_options_menu_remove_from_daily_planner">Remove from daily planner</string>
     <string name="task_options_menu_edit">Edit</string>
     <string name="task_options_menu_delete">Delete</string>
+
+    <string name="goal_options_menu_mark_completed">Mark all tasks as completed</string>
+    <string name="goal_options_menu_add_to_daily_planner">Add all tasks to daily planner</string>
+    <string name="goal_options_menu_edit">Edit Goal</string>
+    <string name="goal_options_menu_delete">Delete Goal</string>
+
+    <string name="task_view_date_hint">No due date</string>
+    <string name="task_view_time_hint">No due time</string>
+    <string name="task_view_notes_hint">No task notes</string>
+
+    <string name="task_view_importance_0">Not important</string>
+    <string name="task_view_importance_1">Important</string>
+    <string name="task_view_importance_2">Very important</string>
+
+    <string name="task_view_urgency_0">Not urgent</string>
+    <string name="task_view_urgency_1">Urgent</string>
+    <string name="task_view_urgency_2">Very urgent</string>
+
+    <string name="item_edit_title_hint">Title...</string>
+    <string name="item_completed_date">Completed on %1$s</string>
+
+    <string name="task_edit_goal_hint">Select goal...</string>
+    <string name="task_edit_date_hint">Select due date...</string>
+    <string name="task_edit_time_hint">Select due time...</string>
+    <string name="task_edit_urgency_hint">Task urgency...</string>
+    <string name="task_edit_importance_hint">Task importance...</string>
+    <string name="task_edit_notes_hint">Task notes...</string>
+
+    <string name="goal_edit_colour_hint">Select goal colour...</string>
+    <string name="goal_edit_notes_hint">Goal notes...</string>
+    <string name="goal_colpicker_title">Select your colour:</string>
 
 </resources>

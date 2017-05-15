@@ -5,10 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/task_edit_root"
     tools:context="au.edu.utas.todoapp.TaskEditDialogFragment"
     android:clickable="true">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -21,8 +23,28 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:inputType="textCapSentences"
+            android:maxLines="1"
+            android:lines="1"
+            android:textColor="#FFFFFF"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:hint="@string/item_edit_title_hint"
+            android:id="@+id/item_edit_title_text"/>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_task_edit"/>
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/task_edit_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightGreyBackground"
+        android:clickable="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>
